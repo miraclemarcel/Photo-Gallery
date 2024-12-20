@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button, Alert } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { View, StyleSheet, Alert } from 'react-native';
 import Gallery from './components/Gallery';
 import HiddenGallery from './components/HiddenGallery';
+import GalleryDetails from './components/GalleryDetails';
 import AuthModal from './components/AuthModal';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -13,16 +18,37 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
+    <NavigationContainer>
       {isAuthenticated ? (
-        <>
-          <Gallery />
-          <HiddenGallery />
-        </>
+        <Stack.Navigator initialRouteName="Gallery">
+          {/* Main Gallery Page */}
+          <Stack.Screen
+            name="Gallery"
+            component={Gallery}
+            options={{ title: 'Gallery' }}
+          />
+
+          {/* Gallery Details Page */}
+          <Stack.Screen
+            name="GalleryDetails"
+            component={GalleryDetails}
+            options={{ title: 'Gallery Details' }}
+          />
+
+          {/* Hidden Gallery Page (uncomment if needed) */}
+          {/* <Stack.Screen
+            name="HiddenGallery"
+            component={HiddenGallery}
+            options={{ title: 'Hidden Gallery' }}
+          /> */}
+        </Stack.Navigator>
       ) : (
-        <AuthModal onAuthSuccess={handleAuthSuccess} />
+        // Authentication Modal
+        <View style={styles.container}>
+          <AuthModal onAuthSuccess={handleAuthSuccess} />
+        </View>
       )}
-    </View>
+    </NavigationContainer>
   );
 }
 

@@ -1,6 +1,20 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["node_modules/*", "src/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "types": ["react-native", "styled-components"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "styles/Style.d.ts"
+  ]
 }
